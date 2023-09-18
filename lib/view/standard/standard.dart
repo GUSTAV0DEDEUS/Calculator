@@ -6,6 +6,13 @@ class Standard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _textController = TextEditingController();
+    void _addToTextField(String value) {
+      String currentText = _textController.text;
+      currentText += value;
+      _textController.text = currentText;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -17,9 +24,10 @@ class Standard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const TextField(
+                    TextField(
+                      controller: _textController,
                       enabled: false,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                       ),
                     ),
@@ -36,70 +44,130 @@ class Standard extends StatelessWidget {
                   crossAxisCount: 4,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
-                  children: const [
+                  children: [
                     // line 1
                     Button(
+                      onPressed: () {
+                        _addToTextField('C');
+                      },
                       content: 'C',
                     ),
                     Button(
-                      content: '\u0028 \u0029',
+                      onPressed: () {
+                        _addToTextField('\u0028');
+                      },
+                      content: '\u0028',
                     ),
                     Button(
-                      content: '\u0025',
+                      onPressed: () {
+                        _addToTextField('\u0029');
+                      },
+                      content: ' \u0029',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('\u00F7');
+                      },
                       content: '\u00F7',
                     ),
                     // line 2
                     Button(
+                      onPressed: () {
+                        _addToTextField('7');
+                      },
                       content: '7',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('8');
+                      },
                       content: '8',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('9');
+                      },
                       content: '9',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('\u00D7');
+                      },
                       content: '\u00D7',
                     ),
                     // line 3
                     Button(
+                      onPressed: () {
+                        _addToTextField('4');
+                      },
                       content: '4',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('5');
+                      },
                       content: '5',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('6');
+                      },
                       content: '6',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('\u002D');
+                      },
                       content: '\u002D',
                     ),
                     // line 4
                     Button(
+                      onPressed: () {
+                        _addToTextField('1');
+                      },
                       content: '1',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('2');
+                      },
                       content: '2',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('3');
+                      },
                       content: '3',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('\u002B');
+                      },
                       content: '\u002B',
                     ),
                     // line 5
                     Button(
+                      onPressed: () {
+                        _addToTextField('C');
+                      },
                       content: '+/-',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('0');
+                      },
                       content: '0',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('\u002C');
+                      },
                       content: '\u002C',
                     ),
                     Button(
+                      onPressed: () {
+                        _addToTextField('\u003D');
+                      },
                       content: '\u003D',
                     ),
                   ],
