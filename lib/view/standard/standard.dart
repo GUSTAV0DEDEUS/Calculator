@@ -1,17 +1,17 @@
+import 'package:auto_size_text_field/auto_size_text_field.dart';
+import 'package:calculator/controller/calculator.controller.dart';
 import 'package:calculator/view/components/button.dart';
 import 'package:flutter/material.dart';
 
 class Standard extends StatelessWidget {
-  const Standard({super.key});
-
+  final CalculatorController controller;
+  const Standard({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    TextEditingController _textController = TextEditingController();
-    void _addToTextField(String value) {
-      String currentText = _textController.text;
-      currentText += value;
-      _textController.text = currentText;
-    }
+    double _fontSize = 24.0;
 
     return Scaffold(
       body: SafeArea(
@@ -24,14 +24,20 @@ class Standard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextField(
-                      controller: _textController,
+                    AutoSizeTextField(
+                      controller: controller.textController,
                       enabled: false,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                       ),
+                      style: const TextStyle(
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.w800,
+                      ),
+                      presetFontSizes: const [24, 18, 14],
+                      maxLines: 3,
                     ),
-                    actions(),
+                    actions(controller.onBackspaceButtonPressed),
                   ],
                 ),
               ),
@@ -48,127 +54,167 @@ class Standard extends StatelessWidget {
                     // line 1
                     Button(
                       onPressed: () {
-                        _addToTextField('C');
+                        controller.onClearButtonPressed();
                       },
                       content: 'C',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('\u0028');
+                        controller.onButtonPressed('\u0028');
                       },
                       content: '\u0028',
+                      primaryColor: Colors.blueGrey,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('\u0029');
+                        controller.onButtonPressed('\u0029');
                       },
                       content: ' \u0029',
+                      primaryColor: Colors.blueGrey,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('\u00F7');
+                        controller.onButtonPressed('\u00F7');
                       },
                       content: '\u00F7',
+                      primaryColor: Colors.blueGrey,
+                      secondaryColor: null,
                     ),
                     // line 2
                     Button(
                       onPressed: () {
-                        _addToTextField('7');
+                        controller.onButtonPressed('7');
                       },
                       content: '7',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('8');
+                        controller.onButtonPressed('8');
                       },
                       content: '8',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('9');
+                        controller.onButtonPressed('9');
                       },
                       content: '9',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('\u00D7');
+                        controller.onButtonPressed('\u00D7');
                       },
                       content: '\u00D7',
+                      primaryColor: Colors.blueGrey,
+                      secondaryColor: null,
                     ),
                     // line 3
                     Button(
                       onPressed: () {
-                        _addToTextField('4');
+                        controller.onButtonPressed('4');
                       },
                       content: '4',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('5');
+                        controller.onButtonPressed('5');
                       },
                       content: '5',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('6');
+                        controller.onButtonPressed('6');
                       },
                       content: '6',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('\u002D');
+                        controller.onButtonPressed('\u002D');
                       },
                       content: '\u002D',
+                      primaryColor: Colors.blueGrey,
+                      secondaryColor: null,
                     ),
                     // line 4
                     Button(
                       onPressed: () {
-                        _addToTextField('1');
+                        controller.onButtonPressed('1');
                       },
                       content: '1',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('2');
+                        controller.onButtonPressed('2');
                       },
                       content: '2',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('3');
+                        controller.onButtonPressed('3');
                       },
                       content: '3',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('\u002B');
+                        controller.onButtonPressed('\u002B');
                       },
                       content: '\u002B',
+                      primaryColor: Colors.blueGrey,
+                      secondaryColor: null,
                     ),
                     // line 5
                     Button(
                       onPressed: () {
-                        _addToTextField('C');
+                        controller.onButtonToggleSign();
                       },
                       content: '+/-',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('0');
+                        controller.onButtonPressed('0');
                       },
                       content: '0',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('\u002C');
+                        controller.onButtonPressed('.');
                       },
                       content: '\u002C',
+                      primaryColor: null,
+                      secondaryColor: null,
                     ),
                     Button(
                       onPressed: () {
-                        _addToTextField('\u003D');
+                        controller.onButtonPressed('\u003D');
                       },
                       content: '\u003D',
+                      primaryColor: Colors.white,
+                      secondaryColor: Colors.blueGrey,
                     ),
                   ],
                 ),
@@ -180,7 +226,7 @@ class Standard extends StatelessWidget {
     );
   }
 
-  Column actions() {
+  Column actions(Function removeToTextField) {
     return Column(
       children: [
         Row(
@@ -190,23 +236,23 @@ class Standard extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () => {},
-                  icon: Icon(Icons.history),
+                  icon: const Icon(Icons.history),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 IconButton(
                   onPressed: () => {},
-                  icon: Icon(Icons.grid_view_outlined),
+                  icon: const Icon(Icons.grid_view_outlined),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 IconButton(
                   onPressed: () => {},
-                  icon: Icon(Icons.calculate_outlined),
+                  icon: const Icon(Icons.calculate_outlined),
                 ),
               ],
             ),
             IconButton(
-              onPressed: () => {},
-              icon: Icon(Icons.backspace_outlined),
+              onPressed: () => {removeToTextField()},
+              icon: const Icon(Icons.backspace_outlined),
             ),
           ],
         ),
