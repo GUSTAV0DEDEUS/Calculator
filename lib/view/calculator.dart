@@ -1,5 +1,4 @@
 import 'package:calculator/controller/calculator.controller.dart';
-import 'package:calculator/view/science/science.dart';
 import 'package:calculator/view/standard/standard.dart';
 import 'package:flutter/material.dart';
 
@@ -18,14 +17,18 @@ class _CalculatorState extends State<Calculator> {
     super.initState();
     controller = CalculatorController(
       context: context,
-      textController: _textController,
+      displayTextController: _textController,
     );
   }
-
+@override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
-    return isPortrait ? Standard(controller: controller) : Science();
+    return isPortrait ? Standard(controller: controller) : Standard(controller: controller);
   }
 }

@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 
 class CalculatorController {
   final BuildContext context;
-  final TextEditingController textController;
+  final TextEditingController displayTextController;
   late CalculatorModel model;
-
-  CalculatorController({
+  String innerText = "";
+ CalculatorController({
     required this.context,
-    required this.textController,
+    required this.displayTextController,
   }) {
-    model = CalculatorModel(textController);
+    model = CalculatorModel(displayTextController);
   }
 
+
   void onBackspaceButtonPressed() {
-    model.removeLastCharacter(
-        () => showSnackbar(message: "Nao ha caractere para remover"));
+    model.removeLastCharacter();
   }
 
   void onClearButtonPressed() {
@@ -26,12 +26,7 @@ class CalculatorController {
     model.addToTextField(
         value,
         () => showSnackbar(
-            message:
-                "Nao e possivel inserir um numero com mais de 10 algarismos"));
-  }
-
-  void onButtonToggleSign() {
-    model.toggleSignLastCharacter();
+            message: "Não é possível inserir um número com mais de 10 algarismos"));
   }
 
   void showSnackbar({String? message}) {
@@ -49,4 +44,17 @@ class CalculatorController {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
+ Future<double> onPressedCalculate() async {
+  innerText = displayTextController.text;
+  try {
+    final result = model.calculate();
+    print(result);
+    return result;
+  } catch (e) {
+    showSnackbar(message: "Erro de cálculo");
+    return 0;
+  }
+}
+
 }

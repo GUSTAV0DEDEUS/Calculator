@@ -3,16 +3,25 @@ import 'package:calculator/controller/calculator.controller.dart';
 import 'package:calculator/view/components/button.dart';
 import 'package:flutter/material.dart';
 
-class Standard extends StatelessWidget {
+class Standard extends StatefulWidget {
   final CalculatorController controller;
   const Standard({
     Key? key,
     required this.controller,
   }) : super(key: key);
+
+  @override
+  State<Standard> createState() => _StandardState();
+}
+
+class _StandardState extends State<Standard> {
+
+ bool isResultVisible = false;
+  String resultText = "";
   @override
   Widget build(BuildContext context) {
-    double _fontSize = 24.0;
-
+    String resultText = "";
+    
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -25,7 +34,7 @@ class Standard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AutoSizeTextField(
-                      controller: controller.textController,
+                      controller: widget.controller.displayTextController,
                       enabled: false,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -34,10 +43,11 @@ class Standard extends StatelessWidget {
                         color: Colors.blueGrey,
                         fontWeight: FontWeight.w800,
                       ),
-                      presetFontSizes: const [24, 18, 14],
+                      presetFontSizes: const [30, 24, 18],
                       maxLines: 3,
                     ),
-                    actions(controller.onBackspaceButtonPressed),
+                    if (isResultVisible) Text(resultText),
+                    actions(widget.controller.onBackspaceButtonPressed),
                   ],
                 ),
               ),
@@ -54,7 +64,7 @@ class Standard extends StatelessWidget {
                     // line 1
                     Button(
                       onPressed: () {
-                        controller.onClearButtonPressed();
+                        widget.controller.onClearButtonPressed();
                       },
                       content: 'C',
                       primaryColor: null,
@@ -62,7 +72,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('\u0028');
+                        widget.controller.onButtonPressed('(');
                       },
                       content: '\u0028',
                       primaryColor: Colors.blueGrey,
@@ -70,7 +80,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('\u0029');
+                        widget.controller.onButtonPressed(')');
                       },
                       content: ' \u0029',
                       primaryColor: Colors.blueGrey,
@@ -78,7 +88,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('\u00F7');
+                        widget.controller.onButtonPressed('/');
                       },
                       content: '\u00F7',
                       primaryColor: Colors.blueGrey,
@@ -87,7 +97,7 @@ class Standard extends StatelessWidget {
                     // line 2
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('7');
+                        widget.controller.onButtonPressed('7');
                       },
                       content: '7',
                       primaryColor: null,
@@ -95,7 +105,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('8');
+                        widget.controller.onButtonPressed('8');
                       },
                       content: '8',
                       primaryColor: null,
@@ -103,7 +113,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('9');
+                        widget.controller.onButtonPressed('9');
                       },
                       content: '9',
                       primaryColor: null,
@@ -111,7 +121,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('\u00D7');
+                        widget.controller.onButtonPressed('*');
                       },
                       content: '\u00D7',
                       primaryColor: Colors.blueGrey,
@@ -120,7 +130,7 @@ class Standard extends StatelessWidget {
                     // line 3
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('4');
+                        widget.controller.onButtonPressed('4');
                       },
                       content: '4',
                       primaryColor: null,
@@ -128,7 +138,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('5');
+                        widget.controller.onButtonPressed('5');
                       },
                       content: '5',
                       primaryColor: null,
@@ -136,7 +146,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('6');
+                        widget.controller.onButtonPressed('6');
                       },
                       content: '6',
                       primaryColor: null,
@@ -144,7 +154,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('\u002D');
+                        widget.controller.onButtonPressed('-');
                       },
                       content: '\u002D',
                       primaryColor: Colors.blueGrey,
@@ -153,7 +163,7 @@ class Standard extends StatelessWidget {
                     // line 4
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('1');
+                        widget.controller.onButtonPressed('1');
                       },
                       content: '1',
                       primaryColor: null,
@@ -161,7 +171,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('2');
+                        widget.controller.onButtonPressed('2');
                       },
                       content: '2',
                       primaryColor: null,
@@ -169,7 +179,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('3');
+                        widget.controller.onButtonPressed('3');
                       },
                       content: '3',
                       primaryColor: null,
@@ -177,7 +187,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('\u002B');
+                        widget.controller.onButtonPressed('+');
                       },
                       content: '\u002B',
                       primaryColor: Colors.blueGrey,
@@ -186,7 +196,7 @@ class Standard extends StatelessWidget {
                     // line 5
                     Button(
                       onPressed: () {
-                        controller.onButtonToggleSign();
+                        null;
                       },
                       content: '+/-',
                       primaryColor: null,
@@ -194,7 +204,7 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('0');
+                        widget.controller.onButtonPressed('0');
                       },
                       content: '0',
                       primaryColor: null,
@@ -202,16 +212,20 @@ class Standard extends StatelessWidget {
                     ),
                     Button(
                       onPressed: () {
-                        controller.onButtonPressed('.');
+                        widget.controller.onButtonPressed('.');
                       },
                       content: '\u002C',
                       primaryColor: null,
                       secondaryColor: null,
                     ),
                     Button(
-                      onPressed: () {
-                        controller.onButtonPressed('\u003D');
-                      },
+                 onPressed: () {
+                       
+                        setState(() {
+                          resultText = "${widget.controller.onPressedCalculate()}";
+                        });
+                      
+                        },
                       content: '\u003D',
                       primaryColor: Colors.white,
                       secondaryColor: Colors.blueGrey,
