@@ -4,9 +4,8 @@ class CalculatorModel {
   final TextEditingController _textController;
   late String text = _textController.text;
   CalculatorModel(this._textController);
-  late List<String> stack = text.split("");
+  late List<String> stack = [];
 
-  
   static bool _isNumber(String value) {
     try {
       double.parse(value);
@@ -15,7 +14,8 @@ class CalculatorModel {
       return false;
     }
   }
- void addToTextField(String value, Function() alert) {
+
+  void addToTextField(String value, Function() alert) {
     String currentText = _textController.text;
 
     bool isNumeric = _isNumber(value);
@@ -35,7 +35,10 @@ class CalculatorModel {
           return;
         }
       }
-    } else if (isDivisionSymbol || isMultiplicationSymbol || value == "+" || value == "-") {
+    } else if (isDivisionSymbol ||
+        isMultiplicationSymbol ||
+        value == "+" ||
+        value == "-") {
       if (currentText.isEmpty ||
           "+-".contains(currentText[currentText.length - 1]) ||
           currentText[currentText.length - 1] == "(") {
@@ -85,8 +88,6 @@ class CalculatorModel {
     _textController.text = currentText;
   }
 
-
-
   void removeLastCharacter() {
     String currentText = _textController.text;
     if (currentText.isNotEmpty) {
@@ -97,12 +98,11 @@ class CalculatorModel {
     }
   }
 
-
   void clearTextField() {
     _textController.text = "";
   }
 
-   int _getOperatorPrecedence(String operator) {
+  int _getOperatorPrecedence(String operator) {
     if (operator == "+" || operator == "-") {
       return 1;
     } else if (operator == "*" || operator == "/") {
@@ -111,98 +111,99 @@ class CalculatorModel {
     return 0;
   }
 
- List<String> _convertToRPN(List<String> list) {
-  List<String> temp = [];
-  List<String> operatorStack = [];
+  List<String> _convertToRPN(List<String> list) {
+    List<String> temp = [];
+    List<String> operatorStack = [];
 
-  for (int i = 0; i < list.length; i++) {
-    String token = list[i].trim();
+    for (int i = 0; i < list.length; i++) {
+      String token = list[i].trim();
 
-    if (token.isEmpty) {
-      continue;
-    } else if (_isNumber(token)) {
-      // Construir números maiores que um dígito
-      String number = token;
-      while (i + 1 < list.length && _isNumber(list[i + 1])) {
-        i++;
-        number += list[i];
-      }
-      temp.add(number);
-    } else if (token.startsWith('-') && _isNumber(token.substring(1))) {
-      temp.add(token);
-    } else if (token == "(") {
-      operatorStack.add(token);
-    } else if (token == ")") {
-      while (operatorStack.isNotEmpty && operatorStack.last != "(") {
-        temp.add(operatorStack.removeLast());
-      }
-      if (operatorStack.isNotEmpty && operatorStack.last == "(") {
-        operatorStack.removeLast();
+      if (token.isEmpty) {
+        continue;
+      } else if (_isNumber(token)) {
+        // Construir números maiores que um dígito
+        String number = token;
+        while (i + 1 < list.length && _isNumber(list[i + 1])) {
+          i++;
+          number += list[i];
+        }
+        temp.add(number);
+      } else if (token.startsWith('-') && _isNumber(token.substring(1))) {
+        temp.add(token);
+      } else if (token == "(") {
+        operatorStack.add(token);
+      } else if (token == ")") {
+        while (operatorStack.isNotEmpty && operatorStack.last != "(") {
+          temp.add(operatorStack.removeLast());
+        }
+        if (operatorStack.isNotEmpty && operatorStack.last == "(") {
+          operatorStack.removeLast();
+        } else {
+          throw Exception("Malformed expression");
+        }
       } else {
+        while (operatorStack.isNotEmpty &&
+            operatorStack.last != "(" &&
+            _getOperatorPrecedence(token) <=
+                _getOperatorPrecedence(operatorStack.last)) {
+          temp.add(operatorStack.removeLast());
+        }
+        operatorStack.add(token);
+      }
+    }
+
+    while (operatorStack.isNotEmpty) {
+      if (operatorStack.last == "(") {
         throw Exception("Malformed expression");
       }
-    } else {
-      while (operatorStack.isNotEmpty &&
-          operatorStack.last != "(" &&
-          _getOperatorPrecedence(token) <=
-              _getOperatorPrecedence(operatorStack.last)) {
-        temp.add(operatorStack.removeLast());
-      }
-      operatorStack.add(token);
+      temp.add(operatorStack.removeLast());
     }
+
+    return temp;
   }
 
-  while (operatorStack.isNotEmpty) {
-    if (operatorStack.last == "(") {
+  double calculate() {
+    stack = _textController.text.split("");
+    List<String> rpn = _convertToRPN(stack);
+    List<double> numbers = [];
+
+    for (String token in rpn) {
+      if (_isNumber(token) ||
+          (token.startsWith('-') && _isNumber(token.substring(1)))) {
+        numbers.add(double.parse(token));
+      } else {
+        if (numbers.length < 2) {
+          throw Exception("Malformed expression");
+        }
+
+        double b = numbers.removeLast();
+        double a = numbers.removeLast();
+
+        double result;
+        switch (token) {
+          case "+":
+            result = a + b;
+            break;
+          case "-":
+            result = a - b;
+            break;
+          case "*":
+            result = a * b;
+            break;
+          case "/":
+            result = a / b;
+            break;
+          default:
+            throw Exception("Invalid operator: $token");
+        }
+
+        numbers.add(result);
+      }
+    }
+
+    if (numbers.length != 1) {
       throw Exception("Malformed expression");
     }
-    temp.add(operatorStack.removeLast());
+    return numbers[0];
   }
-
-  return temp;
-}
-
-double calculate() {
-  List<String> rpn = _convertToRPN(stack);
-  List<double> numbers = [];
-
-  for (String token in rpn) {
-    if (_isNumber(token) || (token.startsWith('-') && _isNumber(token.substring(1)))) {
-      numbers.add(double.parse(token));
-    } else {
-      if (numbers.length < 2) {
-        throw Exception("Malformed expression");
-      }
-
-      double b = numbers.removeLast();
-      double a = numbers.removeLast();
-
-      double result;
-      switch (token) {
-        case "+":
-          result = a + b;
-          break;
-        case "-":
-          result = a - b;
-          break;
-        case "*":
-          result = a * b;
-          break;
-        case "/":
-          result = a / b;
-          break;
-        default:
-          throw Exception("Invalid operator: $token");
-      }
-
-      numbers.add(result);
-    }
-  }
-
-  if (numbers.length != 1) {
-    throw Exception("Malformed expression");
-  }
-  return numbers[0];
-}
-
 }

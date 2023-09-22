@@ -1,7 +1,9 @@
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:calculator/controller/calculator.controller.dart';
 import 'package:calculator/view/components/button.dart';
+import 'package:calculator/view/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Standard extends StatefulWidget {
   final CalculatorController controller;
@@ -15,13 +17,10 @@ class Standard extends StatefulWidget {
 }
 
 class _StandardState extends State<Standard> {
-
- bool isResultVisible = false;
+  bool isResultVisible = false;
   String resultText = "";
   @override
   Widget build(BuildContext context) {
-    String resultText = "";
-    
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -32,21 +31,48 @@ class _StandardState extends State<Standard> {
                 flex: 2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    AutoSizeTextField(
-                      controller: widget.controller.displayTextController,
-                      enabled: false,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                      ),
-                      style: const TextStyle(
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      presetFontSizes: const [30, 24, 18],
-                      maxLines: 3,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        AutoSizeTextField(
+                          controller: widget.controller.displayTextController,
+                          enabled: false,
+                          fullwidth: false,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          style: GoogleFonts.poppins(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          presetFontSizes: const [38, 32, 26],
+                          maxLines: 2,
+                        ),
+                        if (isResultVisible)
+                          GestureDetector(
+                            onTap: () => {
+                              setState(() {
+                                widget.controller
+                                    .updateTextController(resultText);
+                                resultText = "";
+                              })
+                            },
+                            child: Text(
+                              resultText,
+                              style: GoogleFonts.poppins(
+                                fontSize: 36,
+                                fontWeight: FontWeight.w800,
+                                color: const Color.fromRGBO(244, 67, 54, 1),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                      ],
                     ),
-                    if (isResultVisible) Text(resultText),
                     actions(widget.controller.onBackspaceButtonPressed),
                   ],
                 ),
@@ -69,6 +95,7 @@ class _StandardState extends State<Standard> {
                       content: 'C',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -77,6 +104,7 @@ class _StandardState extends State<Standard> {
                       content: '\u0028',
                       primaryColor: Colors.blueGrey,
                       secondaryColor: null,
+                      weight: FontWeight.w600,
                     ),
                     Button(
                       onPressed: () {
@@ -85,6 +113,7 @@ class _StandardState extends State<Standard> {
                       content: ' \u0029',
                       primaryColor: Colors.blueGrey,
                       secondaryColor: null,
+                      weight: FontWeight.w600,
                     ),
                     Button(
                       onPressed: () {
@@ -93,6 +122,7 @@ class _StandardState extends State<Standard> {
                       content: '\u00F7',
                       primaryColor: Colors.blueGrey,
                       secondaryColor: null,
+                      weight: FontWeight.w600,
                     ),
                     // line 2
                     Button(
@@ -102,6 +132,7 @@ class _StandardState extends State<Standard> {
                       content: '7',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -110,6 +141,7 @@ class _StandardState extends State<Standard> {
                       content: '8',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -118,6 +150,7 @@ class _StandardState extends State<Standard> {
                       content: '9',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -126,6 +159,7 @@ class _StandardState extends State<Standard> {
                       content: '\u00D7',
                       primaryColor: Colors.blueGrey,
                       secondaryColor: null,
+                      weight: FontWeight.w600,
                     ),
                     // line 3
                     Button(
@@ -135,6 +169,7 @@ class _StandardState extends State<Standard> {
                       content: '4',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -143,6 +178,7 @@ class _StandardState extends State<Standard> {
                       content: '5',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -151,6 +187,7 @@ class _StandardState extends State<Standard> {
                       content: '6',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -159,6 +196,7 @@ class _StandardState extends State<Standard> {
                       content: '\u002D',
                       primaryColor: Colors.blueGrey,
                       secondaryColor: null,
+                      weight: FontWeight.w800,
                     ),
                     // line 4
                     Button(
@@ -168,6 +206,7 @@ class _StandardState extends State<Standard> {
                       content: '1',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -176,6 +215,7 @@ class _StandardState extends State<Standard> {
                       content: '2',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -184,6 +224,7 @@ class _StandardState extends State<Standard> {
                       content: '3',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -192,6 +233,7 @@ class _StandardState extends State<Standard> {
                       content: '\u002B',
                       primaryColor: Colors.blueGrey,
                       secondaryColor: null,
+                      weight: FontWeight.w600,
                     ),
                     // line 5
                     Button(
@@ -201,6 +243,7 @@ class _StandardState extends State<Standard> {
                       content: '+/-',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -209,6 +252,7 @@ class _StandardState extends State<Standard> {
                       content: '0',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
                       onPressed: () {
@@ -217,18 +261,25 @@ class _StandardState extends State<Standard> {
                       content: '\u002C',
                       primaryColor: null,
                       secondaryColor: null,
+                      weight: null,
                     ),
                     Button(
-                 onPressed: () {
-                       
-                        setState(() {
-                          resultText = "${widget.controller.onPressedCalculate()}";
-                        });
-                      
-                        },
+                      onPressed: () {
+                        try {
+                          final result = widget.controller.onPressedCalculate();
+                          setState(() {
+                            isResultVisible = true;
+                            resultText = result.toString();
+                          });
+                        } catch (e) {
+                          widget.controller
+                              .showSnackbar(message: "Erro de cálculo");
+                        }
+                      },
                       content: '\u003D',
                       primaryColor: Colors.white,
                       secondaryColor: Colors.blueGrey,
+                      weight: FontWeight.w600,
                     ),
                   ],
                 ),
@@ -248,25 +299,48 @@ class _StandardState extends State<Standard> {
           children: [
             Row(
               children: [
-                IconButton(
-                  onPressed: () => {},
-                  icon: const Icon(Icons.history),
+                Tooltip(
+                  message: "Historico",
+                  child: IconButton(
+                    onPressed: () => {},
+                    icon: const Icon(Icons.history),
+                  ),
                 ),
                 const SizedBox(width: 10),
-                IconButton(
-                  onPressed: () => {},
-                  icon: const Icon(Icons.grid_view_outlined),
+                Tooltip(
+                  message: "Mais opcoes",
+                  child: IconButton(
+                    onPressed: () => {},
+                    icon: const Icon(Icons.grid_view_outlined),
+                  ),
                 ),
                 const SizedBox(width: 10),
-                IconButton(
-                  onPressed: () => {},
-                  icon: const Icon(Icons.calculate_outlined),
+                Tooltip(
+                  message: "Calculadora cientifica",
+                  child: IconButton(
+                    onPressed: () => {},
+                    icon: const Icon(Icons.calculate_outlined),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Tooltip(
+                  message: "Perfil",
+                  child: IconButton(
+                    onPressed: () =>
+                        Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const Profile(),
+                    )),
+                    icon: const Icon(Icons.person_outline_sharp),
+                  ),
                 ),
               ],
             ),
-            IconButton(
-              onPressed: () => {removeToTextField()},
-              icon: const Icon(Icons.backspace_outlined),
+            Tooltip(
+              message: "Apagar",
+              child: IconButton(
+                onPressed: () => {removeToTextField()},
+                icon: const Icon(Icons.backspace_outlined),
+              ),
             ),
           ],
         ),
