@@ -6,13 +6,12 @@ class CalculatorController {
   final TextEditingController displayTextController;
   late CalculatorModel model;
   String innerText = "";
- CalculatorController({
+  CalculatorController({
     required this.context,
     required this.displayTextController,
   }) {
     model = CalculatorModel(displayTextController);
   }
-
 
   void onBackspaceButtonPressed() {
     model.removeLastCharacter();
@@ -26,7 +25,8 @@ class CalculatorController {
     model.addToTextField(
         value,
         () => showSnackbar(
-            message: "Não é possível inserir um número com mais de 10 algarismos"));
+            message:
+                "Não é possível inserir um número com mais de 10 algarismos"));
   }
 
   void showSnackbar({String? message}) {
@@ -45,16 +45,18 @@ class CalculatorController {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
- Future<double> onPressedCalculate() async {
-  innerText = displayTextController.text;
-  try {
-    final result = model.calculate();
-    print(result);
-    return result;
-  } catch (e) {
-    showSnackbar(message: "Erro de cálculo");
-    return 0;
+  double onPressedCalculate() {
+    innerText = displayTextController.text;
+    try {
+      final result = model.calculate();
+      return result;
+    } catch (e) {
+      showSnackbar(message: "Erro de cálculo");
+      return 0;
+    }
   }
-}
 
+  void updateTextController(String text) {
+    displayTextController.text = text;
+  }
 }
