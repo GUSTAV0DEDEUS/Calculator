@@ -21,19 +21,22 @@ class _StandardState extends State<Standard> {
   String resultText = "";
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height - 80;
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Column(
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    height: height * 0.2,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisSize: MainAxisSize.max,
@@ -42,6 +45,7 @@ class _StandardState extends State<Standard> {
                           controller: widget.controller.displayTextController,
                           enabled: false,
                           fullwidth: false,
+                          minLines: 1,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
@@ -73,15 +77,18 @@ class _StandardState extends State<Standard> {
                           ),
                       ],
                     ),
-                    actions(widget.controller.onBackspaceButtonPressed),
-                  ],
-                ),
+                  ),
+                  actions(widget.controller.onBackspaceButtonPressed),
+                ],
               ),
-              Expanded(
-                flex: 3,
+              SizedBox(
+                width: 400,
+                height: height < 1200 ? height * 0.6 : double.maxFinite,
                 child: GridView.count(
                   shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: height > 800
+                      ? const NeverScrollableScrollPhysics()
+                      : const AlwaysScrollableScrollPhysics(),
                   clipBehavior: Clip.none,
                   crossAxisCount: 4,
                   crossAxisSpacing: 10,
@@ -238,7 +245,7 @@ class _StandardState extends State<Standard> {
                     // line 5
                     Button(
                       onPressed: () {
-                        null;
+                        widget.controller.lastSymbolController();
                       },
                       content: '+/-',
                       primaryColor: null,
