@@ -22,8 +22,7 @@ class CalculatorModel {
       if ((!_isNumber(reverseOrder[i])) && reverseOrder[i] != ".") {
         if (reverseOrder[i] == "+") {
           reverseOrder[i] = "-";
-        }
-        if (reverseOrder[i] == "-") {
+        } else if (reverseOrder[i] == "-") {
           reverseOrder[i] = "+";
         }
       }

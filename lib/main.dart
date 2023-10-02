@@ -1,4 +1,5 @@
 import 'package:calculator/view/calculator.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,14 +11,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.redAccent),
-        useMaterial3: true,
-      ),
-      home: const Calculator(),
-    );
+    return DynamicColorBuilder(
+        builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          textButtonTheme: TextButtonThemeData(
+            style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(
+                  lightDynamic?.primary ?? Colors.blue),
+            ),
+          ),
+          colorScheme: lightDynamic,
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          textButtonTheme: TextButtonThemeData(
+            style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(
+                  lightDynamic?.primary ?? Colors.blue),
+            ),
+          ),
+          brightness: Brightness.dark,
+          useMaterial3: true,
+          colorScheme: darkDynamic,
+        ),
+        home: const Calculator(),
+      );
+    });
   }
 }

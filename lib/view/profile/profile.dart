@@ -103,7 +103,7 @@ class Profile extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20),
                               child: Text(
-                                "Entre em contato comigo",
+                                "Entre em contato",
                                 style: GoogleFonts.poppins(
                                   fontSize: 18,
                                   color: Colors.white70,

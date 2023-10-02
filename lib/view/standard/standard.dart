@@ -28,7 +28,6 @@ class _StandardState extends State<Standard> {
           padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,12 +44,13 @@ class _StandardState extends State<Standard> {
                           controller: widget.controller.displayTextController,
                           enabled: false,
                           fullwidth: false,
+                          textAlign: TextAlign.end,
                           minLines: 1,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
                           style: GoogleFonts.poppins(
-                            color: Colors.blueGrey,
+                            color: Theme.of(context).colorScheme.inversePrimary,
                             fontWeight: FontWeight.w600,
                           ),
                           presetFontSizes: const [38, 32, 26],
@@ -70,7 +70,7 @@ class _StandardState extends State<Standard> {
                               style: GoogleFonts.poppins(
                                 fontSize: 36,
                                 fontWeight: FontWeight.w800,
-                                color: const Color.fromRGBO(244, 67, 54, 1),
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -109,7 +109,7 @@ class _StandardState extends State<Standard> {
                         widget.controller.onButtonPressed('(');
                       },
                       content: '\u0028',
-                      primaryColor: Colors.blueGrey,
+                      primaryColor: Theme.of(context).colorScheme.background,
                       secondaryColor: null,
                       weight: FontWeight.w600,
                     ),
@@ -118,7 +118,7 @@ class _StandardState extends State<Standard> {
                         widget.controller.onButtonPressed(')');
                       },
                       content: ' \u0029',
-                      primaryColor: Colors.blueGrey,
+                      primaryColor: Theme.of(context).colorScheme.background,
                       secondaryColor: null,
                       weight: FontWeight.w600,
                     ),
@@ -127,7 +127,7 @@ class _StandardState extends State<Standard> {
                         widget.controller.onButtonPressed('/');
                       },
                       content: '\u00F7',
-                      primaryColor: Colors.blueGrey,
+                      primaryColor: Theme.of(context).colorScheme.background,
                       secondaryColor: null,
                       weight: FontWeight.w600,
                     ),
@@ -164,7 +164,7 @@ class _StandardState extends State<Standard> {
                         widget.controller.onButtonPressed('*');
                       },
                       content: '\u00D7',
-                      primaryColor: Colors.blueGrey,
+                      primaryColor: Theme.of(context).colorScheme.background,
                       secondaryColor: null,
                       weight: FontWeight.w600,
                     ),
@@ -201,7 +201,7 @@ class _StandardState extends State<Standard> {
                         widget.controller.onButtonPressed('-');
                       },
                       content: '\u002D',
-                      primaryColor: Colors.blueGrey,
+                      primaryColor: Theme.of(context).colorScheme.background,
                       secondaryColor: null,
                       weight: FontWeight.w800,
                     ),
@@ -238,7 +238,7 @@ class _StandardState extends State<Standard> {
                         widget.controller.onButtonPressed('+');
                       },
                       content: '\u002B',
-                      primaryColor: Colors.blueGrey,
+                      primaryColor: Theme.of(context).colorScheme.background,
                       secondaryColor: null,
                       weight: FontWeight.w600,
                     ),
@@ -284,8 +284,8 @@ class _StandardState extends State<Standard> {
                         }
                       },
                       content: '\u003D',
-                      primaryColor: Colors.white,
-                      secondaryColor: Colors.blueGrey,
+                      primaryColor: Theme.of(context).colorScheme.background,
+                      secondaryColor: Theme.of(context).colorScheme.secondary,
                       weight: FontWeight.w600,
                     ),
                   ],

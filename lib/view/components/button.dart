@@ -21,13 +21,13 @@ class Button extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(
-            secondaryColor ?? const Color.fromRGBO(244, 67, 54, .2)),
+            secondaryColor ?? Theme.of(context).colorScheme.primary),
       ),
       child: Text(
         content,
         style: GoogleFonts.poppins(
           fontSize: 30,
-          color: primaryColor ?? const Color.fromRGBO(244, 67, 54, 1),
+          color: primaryColor ?? Theme.of(context).colorScheme.inversePrimary,
           fontWeight: weight ?? FontWeight.w500,
         ),
       ),
