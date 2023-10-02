@@ -15,12 +15,31 @@ class CalculatorModel {
     }
   }
 
+  void lastSymbol() {
+    List<String> expression = _textController.text.split("");
+    List<String> reverseOrder = expression.reversed.toList();
+    for (int i = 0; i < reverseOrder.length; i++) {
+      if ((!_isNumber(reverseOrder[i])) && reverseOrder[i] != ".") {
+        if (reverseOrder[i] == "+") {
+          reverseOrder[i] = "-";
+        }
+        if (reverseOrder[i] == "-") {
+          reverseOrder[i] = "+";
+        }
+      }
+    }
+    expression = reverseOrder.reversed.toList();
+    _textController.text = expression.join("");
+  }
+
   void addToTextField(String value, Function() alert) {
     String currentText = _textController.text;
 
     bool isNumeric = _isNumber(value);
     bool isDivisionSymbol = value == '/';
     bool isMultiplicationSymbol = value == '*';
+    bool isplusSymbol = value == '+';
+    bool isMinusSymbol = value == '-';
 
     if (isNumeric) {
       bool isLastCharacterNumeric = currentText.isNotEmpty &&
@@ -37,10 +56,11 @@ class CalculatorModel {
       }
     } else if (isDivisionSymbol ||
         isMultiplicationSymbol ||
-        value == "+" ||
-        value == "-") {
+        isMinusSymbol ||
+        isplusSymbol ||
+        value == ".") {
       if (currentText.isEmpty ||
-          "+-".contains(currentText[currentText.length - 1]) ||
+          "+-.".contains(currentText[currentText.length - 1]) ||
           currentText[currentText.length - 1] == "(") {
         return;
       }
@@ -123,7 +143,8 @@ class CalculatorModel {
       } else if (_isNumber(token)) {
         // Construir números maiores que um dígito
         String number = token;
-        while (i + 1 < list.length && _isNumber(list[i + 1])) {
+        while (i + 1 < list.length &&
+            (_isNumber(list[i + 1]) || list[i + 1] == ".")) {
           i++;
           number += list[i];
         }
@@ -166,6 +187,9 @@ class CalculatorModel {
     stack = _textController.text.split("");
     List<String> rpn = _convertToRPN(stack);
     List<double> numbers = [];
+    if (!_isNumber(stack[stack.length - 1])) {
+      throw Exception("Malformed expression");
+    }
 
     for (String token in rpn) {
       if (_isNumber(token) ||

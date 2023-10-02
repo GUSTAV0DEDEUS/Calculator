@@ -29,6 +29,25 @@ class CalculatorController {
                 "Não é possível inserir um número com mais de 10 algarismos"));
   }
 
+  double onPressedCalculate() {
+    innerText = displayTextController.text;
+    try {
+      final result = model.calculate();
+      return result;
+    } catch (e) {
+      showSnackbar(message: "Erro de cálculo");
+      return 0;
+    }
+  }
+
+  void updateTextController(String text) {
+    displayTextController.text = text;
+  }
+
+  void lastSymbolController() {
+    model.lastSymbol();
+  }
+
   void showSnackbar({String? message}) {
     final snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
@@ -43,20 +62,5 @@ class CalculatorController {
       duration: const Duration(seconds: 2),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  double onPressedCalculate() {
-    innerText = displayTextController.text;
-    try {
-      final result = model.calculate();
-      return result;
-    } catch (e) {
-      showSnackbar(message: "Erro de cálculo");
-      return 0;
-    }
-  }
-
-  void updateTextController(String text) {
-    displayTextController.text = text;
   }
 }
