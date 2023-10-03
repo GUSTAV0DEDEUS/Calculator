@@ -57,22 +57,26 @@ class _StandardState extends State<Standard> {
                           maxLines: 2,
                         ),
                         if (isResultVisible)
-                          GestureDetector(
-                            onTap: () => {
-                              setState(() {
-                                widget.controller
-                                    .updateTextController(resultText);
-                                resultText = "";
-                              })
-                            },
-                            child: Text(
-                              resultText,
-                              style: GoogleFonts.poppins(
-                                fontSize: 36,
-                                fontWeight: FontWeight.w800,
-                                color: Theme.of(context).colorScheme.primary,
+                          Visibility(
+                            visible: isResultVisible,
+                            child: GestureDetector(
+                              onTap: () => {
+                                setState(() {
+                                  isResultVisible = false;
+                                  widget.controller
+                                      .updateTextController(resultText);
+                                  resultText = "";
+                                })
+                              },
+                              child: Text(
+                                resultText,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.w800,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                       ],
@@ -98,6 +102,10 @@ class _StandardState extends State<Standard> {
                     Button(
                       onPressed: () {
                         widget.controller.onClearButtonPressed();
+                        setState(() {
+                          resultText = "";
+                          isResultVisible = false;
+                        });
                       },
                       content: 'C',
                       primaryColor: null,

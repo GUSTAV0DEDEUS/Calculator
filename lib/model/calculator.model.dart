@@ -22,8 +22,10 @@ class CalculatorModel {
       if ((!_isNumber(reverseOrder[i])) && reverseOrder[i] != ".") {
         if (reverseOrder[i] == "+") {
           reverseOrder[i] = "-";
+          break;
         } else if (reverseOrder[i] == "-") {
           reverseOrder[i] = "+";
+          break;
         }
       }
     }
@@ -140,7 +142,6 @@ class CalculatorModel {
       if (token.isEmpty) {
         continue;
       } else if (_isNumber(token)) {
-        // Construir números maiores que um dígito
         String number = token;
         while (i + 1 < list.length &&
             (_isNumber(list[i + 1]) || list[i + 1] == ".")) {
@@ -173,7 +174,7 @@ class CalculatorModel {
     }
 
     while (operatorStack.isNotEmpty) {
-      if (operatorStack.last == "(") {
+      if (operatorStack.last == "(" || operatorStack.last == ")") {
         throw Exception("Malformed expression");
       }
       temp.add(operatorStack.removeLast());
@@ -186,7 +187,8 @@ class CalculatorModel {
     stack = _textController.text.split("");
     List<String> rpn = _convertToRPN(stack);
     List<double> numbers = [];
-    if (!_isNumber(stack[stack.length - 1])) {
+    if ((!_isNumber(stack[stack.length - 1])) &&
+        stack[stack.length - 1] != ")") {
       throw Exception("Malformed expression");
     }
 
@@ -214,6 +216,9 @@ class CalculatorModel {
             result = a * b;
             break;
           case "/":
+            if (b == 0) {
+              throw Exception("Malformed expression");
+            }
             result = a / b;
             break;
           default:
@@ -227,6 +232,7 @@ class CalculatorModel {
     if (numbers.length != 1) {
       throw Exception("Malformed expression");
     }
+
     return numbers[0];
   }
 }
